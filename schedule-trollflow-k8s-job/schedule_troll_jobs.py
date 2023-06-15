@@ -84,7 +84,7 @@ def create_job_object(job_name: str, configmap_name: str) -> client.V1Job:
                 name="AWS_ACCESS_KEY_ID",
                 value_from=client.V1EnvVarSource(
                     secret_key_ref=client.V1ConfigMapKeySelector(
-                        name="nordsat-aws-credentials", key="s3-secret-key"
+                        name="nordsat-aws-credentials", key="s3-access-key"
                     )
                 ),
             ),
@@ -92,7 +92,7 @@ def create_job_object(job_name: str, configmap_name: str) -> client.V1Job:
                 name="AWS_SECRET_ACCESS_KEY",
                 value_from=client.V1EnvVarSource(
                     secret_key_ref=client.V1ConfigMapKeySelector(
-                        name="nordsat-aws-credentials", key="s3-access-key"
+                        name="nordsat-aws-credentials", key="s3-secret-key"
                     )
                 ),
             ),
