@@ -12,7 +12,7 @@ from kubernetes import client, config
 # Environment variables
 JOB_SCHEDULER_DEBUG_LEVEL = os.getenv("JOB_SCHEDULER_DEBUG_LEVEL", "INFO")
 JOB_SCHEDULER_NAMESPACE = os.getenv("JOB_SCHEDULER_NAMESPACE", "nordsat-processing")
-JOB_SCHEDULER_IMAGE = os.getenv("JOB_SCHEDULER_IMAGE", "mraspaud/trollflow2-kub")
+JOB_SCHEDULER_IMAGE = os.getenv("JOB_SCHEDULER_IMAGE", "mraspaud/trollflow2-kub:1.0")
 TROLL_FLOW_CONFIGMAP_NAME = os.getenv(
     "JOB_SCHEDULER_TROLL_FLOW_CONFIGMAP_NAME", "satpy-test-fm"
 )
