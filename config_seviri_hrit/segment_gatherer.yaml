@@ -19,5 +19,5 @@ posttroll:
   publish_topic:
     /dataset/seviri_hrit
   addresses:
-    - localhost
+    - tcp://localhost:10000
   nameservers: false
