@@ -18,4 +18,6 @@ posttroll:
     - /segment/seviri_hrit
   publish_topic:
     /dataset/seviri_hrit
-
+  addresses:
+    - localhost
+  nameservers: false
