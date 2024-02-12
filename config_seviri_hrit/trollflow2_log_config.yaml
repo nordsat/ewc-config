@@ -1,0 +1,14 @@
+version: 1
+disable_existing_loggers: false
+formatters:
+  pytroll:
+    datefmt: '%Y-%m-%d %H:%M:%S'
+    format: '[%(levelname)s: %(asctime)s : %(name)s] %(message)s'
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: pytroll
+root:
+  handlers:
+  - console
+  level: DEBUG
