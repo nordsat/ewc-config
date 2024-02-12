@@ -19,6 +19,6 @@ posttroll:
   publish_topic:
     /dataset/seviri_hrit
   addresses:
-    - tcp://trollstalker:10000
+    - tcp://trollstalker-seviri:10000
   nameservers: false
   publish_port: 10001
