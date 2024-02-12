@@ -8,6 +8,9 @@ handlers:
   console:
     class: logging.StreamHandler
     formatter: pytroll
+loggers:
+  null:
+    level: DEBUG
 root:
   handlers:
   - console
