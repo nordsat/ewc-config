@@ -1,0 +1,1 @@
+export MESSAGE_SOURCE=tcp://segment-gatherer:10001
