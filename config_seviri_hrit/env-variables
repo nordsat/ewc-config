@@ -1,1 +1,2 @@
 export MESSAGE_SOURCE=tcp://segment-gatherer-seviri:10001
+export XRIT_DECOMPRESS_PATH=/opt/conda/bin/xRITDecompress
