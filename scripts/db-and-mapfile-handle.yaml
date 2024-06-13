@@ -1,0 +1,24 @@
+---
+trollflow2_config_file: home/trygveas/Git/ewc-config/config_fci_nc/trollflow2_fci_nc.yaml
+product_list:
+  areas:
+    nordsat1km:
+      products:
+        airmass:
+        true_color_day:
+        natural_color_day:
+pg_table_name: meteosat_fci_products
+pg_user_name: postgres
+pg_password: password
+pg_database_name: postgres
+pg_host_name: some-postgres
+host_name: localhost
+mapfile_include_layers_filename: mapfile_layers.map
+
+subscriber_settings:
+  # nameserver: 10.112.5.14
+  # topics: '/test/1b/hrit-segment/rss'
+  # services: 'dummy_sender'
+  port: 35599
+  addresses: ipc://10.112.5.14
+

@@ -1,0 +1,82 @@
+
+  LAYER
+    STATUS OFF
+    NAME "time_idx_airmass"
+    TYPE POLYGON
+    # Mapserver requires some unique field for SQL query
+    DATA "geom from (select * from meteosat_fci_products where product_name='airmass') as foo using unique id"
+    METADATA
+      "wms_title" "TIME INDEX"
+      "wms_srs" "EPSG:3857"
+      "wms_timeextent" "2024-02-08T00:00:00Z/2024-02-08T11:30:00Z/PT15M"
+      "wms_timeitem" "time" #column in postgis table of type timestamp
+      "wms_timedefault" "2024-02-08T11:30:00Z"
+      "wms_enable_request" "*"
+      "wms_extent" "-7000000 2000000 4400000 12000000"
+    END
+    PROJECTION
+      "init=epsg:3857"
+    END
+    CONNECTIONTYPE postgis
+    CONNECTION "host=some-postgres user=postgres dbname=postgres port=5432 password=password"
+  END
+
+  LAYER
+    PROJECTION
+      "init=epsg:3857"
+    END
+    NAME "airmass"
+    STATUS ON
+    TYPE raster
+    METADATA
+      "wms_title" "airmass"
+      "wms_srs" "EPSG:3857"
+      "wms_timeextent" "2024-02-08T00:00:00Z/2024-02-08T11:30:00Z/PT15M"
+      "wms_enable_request" "*"
+      "wms_timeitem" "time"
+      "wms_extent" "-7000000 2000000 4400000 12000000"
+    END
+    TILEINDEX time_idx_airmass
+    TILEITEM "filename"
+  END
+
+  LAYER
+    STATUS OFF
+    NAME "time_idx_natural_color_day"
+    TYPE POLYGON
+    # Mapserver requires some unique field for SQL query
+    DATA "geom from (select * from meteosat_fci_products where product_name='natural_color_day') as foo using unique id"
+    METADATA
+      "wms_title" "TIME INDEX"
+      "wms_srs" "EPSG:3857"
+      "wms_timeextent" "2024-02-08T00:00:00Z/2024-02-08T11:30:00Z/PT15M"
+      "wms_timeitem" "time" #column in postgis table of type timestamp
+      "wms_timedefault" "2024-02-08T11:30:00Z"
+      "wms_enable_request" "*"
+      "wms_extent" "-7000000 2000000 4400000 12000000"
+    END
+    PROJECTION
+      "init=epsg:3857"
+    END
+    CONNECTIONTYPE postgis
+    CONNECTION "host=some-postgres user=postgres dbname=postgres port=5432 password=password"
+  END
+
+  LAYER
+    PROJECTION
+      "init=epsg:3857"
+    END
+    NAME "natural_color_day"
+    STATUS ON
+    TYPE raster
+    METADATA
+      "wms_title" "natural_color_day"
+      "wms_srs" "EPSG:3857"
+      "wms_timeextent" "2024-02-08T00:00:00Z/2024-02-08T11:30:00Z/PT15M"
+      "wms_enable_request" "*"
+      "wms_timeitem" "time"
+      "wms_extent" "-7000000 2000000 4400000 12000000"
+    END
+    TILEINDEX time_idx_natural_color_day
+    TILEITEM "filename"
+  END
