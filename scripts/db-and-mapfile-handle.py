@@ -6,8 +6,13 @@ import datetime
 import psycopg2
 import rasterio
 import traceback
+import logging
 from contextlib import closing
 from posttroll.subscriber import create_subscriber_from_dict_config
+
+_LOGGER = logging.getLogger("db-sync")
+
+logging.basicConfig(level=logging.INFO)
 
 """
 Example of a needed config:
@@ -22,7 +27,7 @@ product_list:
         true_color_day:
         natural_color_day:
 # Also needed postgis credentials, database and table name to use.
-pg_table_name: meteosat_fci_products
+pg_table_name: products
 pg_user_name: postgres
 pg_password: password
 pg_database_name: postgres
@@ -42,7 +47,8 @@ subscriber_settings:
 def read_config(yaml_file):
     """Read a config file."""
     with open(yaml_file) as fd:
-        data = yaml.load(fd.read(), Loader=yaml.BaseLoader)
+        data = yaml.safe_load(fd.read())
+    
     return data
 
 
@@ -61,15 +67,16 @@ def main(args=None):
 
 def subscribe_and_ingest(config, areas):
     """Subscribe to posttroll messages and ingest the data filename/uri is inserted into a postgis to be used by mapserver."""
+    print(config['subscriber_settings'])
     with closing(create_subscriber_from_dict_config(config['subscriber_settings'])) as sub:
         for message in sub.recv():
             if message is None or message.type == 'beat':
-                print(f"Skipping message {message}. Not used here.")
+                _LOGGER.warning(f"Skipping message {message}. Not used here.")
                 continue
             try:
                 files = message.data['uri']
             except KeyError:
-                print(f"Can not find uri in message: {message}")
+                _LOGGER.error(f"Can not find uri in message: {message}")
                 continue
             conn = pg_connect(config)
             if conn and conn.status:
@@ -77,7 +84,10 @@ def subscribe_and_ingest(config, areas):
             else:
                 print("Failed to get connection to postgis db. Message will not be atempt inserted.")
                 continue
+            
             inserted = ingest_into_postgis(conn, files, config, areas)
+            print(f"Is inserted: {inserted}")
+
             if inserted:
                 layer_string = create_mapserver_layer_config(conn, areas, config)
 
@@ -115,10 +125,12 @@ def ingest_into_postgis(conn, files, config, areas):
     for area in areas:
         for product in areas[area]['products']:
             for f in files:
+                _LOGGER.info(f"Considering file {f}")
                 bn_f = os.path.basename(f)
-                if bn_f.startswith(product):
+                if product in bn_f:
                     img_time, geom = collect_data_from_file(f)
-                    inserted.append(insert_into_db(conn, f, product, img_time, geom, config))
+                    if geom:
+                        inserted.append(insert_into_db(conn, f, product, img_time, geom, config))
 
     return any(inserted)
 
@@ -242,38 +254,54 @@ def collect_data_from_file(input_file):
         dataset = rasterio.open(input_file)
     except Exception as ex:
         print("Exception rasterio open is ", str(ex), flush=True)
+
     try:
         tags = dataset.tags()
     except Exception as ex:
         print("Exception dataset tags is ", str(ex), flush=True)
+ 
     try:
         img_time = datetime.datetime.strptime(tags['TIFFTAG_DATETIME'], '%Y:%m:%d %H:%M:%S')
     except Exception as ex:
         print("Exception img_time is ", str(ex), flush=True)
         traceback.print_exc()
         img_time = None
+        return img_time, None
+        
     try:
         bounds = dataset.bounds
         print(bounds, flush=True)
     except Exception as ex:
         print("Exception bounds is ", str(ex), flush=True)
         bounds = [1, 2, 3, 4]
+
     ll_x = bounds[0]
     ll_y = bounds[1]
     ur_x = bounds[2]
     ur_y = bounds[3]
+
     try:
         crs = dataset.crs.to_authority()
-        if crs is None:
-            print("crs from file is None. Need a crs to get geometry in postgis right.")
+
     except Exception as ex:
         print("Exception crs is ", str(ex), flush=True)
         crs = ['EPSG', 3857]
-    geom = "ST_SetSRID(ST_MakeBox2D(ST_Point({}, {}), ST_Point({}, {})), {})".format(ll_x,
-                                                                                     ll_y,
-                                                                                     ur_x,
-                                                                                     ur_y,
-                                                                                     crs[1])
+
+    # REMOVE IT, THIS IS JUST FOR TESTING!!!!
+    crs = ['EPSG', 3857]
+
+    if crs is None:
+        _LOGGER.error("crs from file is None. Need a crs to get geometry in postgis right.")
+        return img_time, None
+
+    geom = "ST_SetSRID(ST_MakeBox2D(ST_Point({}, {}), ST_Point({}, {})), {})".format(
+        ll_x,
+        ll_y,
+        ur_x,
+        ur_y,
+        crs[1]
+    )
+
     return img_time, geom
 
 def pg_connect(config):
