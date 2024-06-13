@@ -51,34 +51,26 @@ def read_config(yaml_file):
     
     return data
 
-
-def main(args=None):
-    """Main script."""
-    parsed_args = parse_args(args=args)
-    config = read_config(parsed_args.config_file)
-    try:
-        # read from trollflow2 config file
-        areas = read_trollflow2_config(config['trollflow2_config_file'])
-    except:
-        # or use config in this config file
-        areas = config['product_list']['areas']
-
-    subscribe_and_ingest(config, areas)
-
 def subscribe_and_ingest(config, areas):
-    """Subscribe to posttroll messages and ingest the data filename/uri is inserted into a postgis to be used by mapserver."""
-    print(config['subscriber_settings'])
+    """Subscribe to posttroll messages and ingest the data filename/uri.
+
+       It is inserted into a postgis to be used by mapserver.
+    """
     with closing(create_subscriber_from_dict_config(config['subscriber_settings'])) as sub:
         for message in sub.recv():
             if message is None or message.type == 'beat':
                 _LOGGER.warning(f"Skipping message {message}. Not used here.")
                 continue
+
             try:
                 files = message.data['uri']
+
             except KeyError:
                 _LOGGER.error(f"Can not find uri in message: {message}")
                 continue
+
             conn = pg_connect(config)
+
             if conn and conn.status:
                 print("Postgis DB connected with STATUS:", conn.status, flush=True)
             else:
@@ -86,7 +78,6 @@ def subscribe_and_ingest(config, areas):
                 continue
             
             inserted = ingest_into_postgis(conn, files, config, areas)
-            print(f"Is inserted: {inserted}")
 
             if inserted:
                 layer_string = create_mapserver_layer_config(conn, areas, config)
@@ -97,6 +88,7 @@ def subscribe_and_ingest(config, areas):
                 if os.path.exists(tmp_layer_file):
                     os.rename(tmp_layer_file, config['mapfile_include_layers_filename'])
 
+
 def parse_args(args=None):
     """Parse commandline arguments."""
     parser = argparse.ArgumentParser("Message writer",
@@ -104,16 +96,22 @@ def parse_args(args=None):
     parser.add_argument("config_file",
                         help="The configuration file to run on.")
     parser.add_argument("files", nargs="*", action="store")
+
     return parser.parse_args(args)
 
+
 def read_trollflow2_config(tf2c):
-    # print(tf2c)
+    """Read trollflow2 config."""
     trollflow2_config = read_config(tf2c)
     areas = trollflow2_config['product_list']['areas']
+
     return areas
 
+
 def ingest_into_postgis(conn, files, config, areas):
-    """If file basename starts with a configured product try to insert into database.
+    """Ingest into POSTGIS.
+
+       If file basename starts with a configured product try to insert into database.
        Return True of one or more products were inserted
     """
     inserted = []
@@ -125,20 +123,26 @@ def ingest_into_postgis(conn, files, config, areas):
     for area in areas:
         for product in areas[area]['products']:
             for f in files:
+
                 _LOGGER.info(f"Considering file {f}")
                 bn_f = os.path.basename(f)
+
                 if product in bn_f:
                     img_time, geom = collect_data_from_file(f)
+
                     if geom:
                         inserted.append(insert_into_db(conn, f, product, img_time, geom, config))
 
     return any(inserted)
 
+
 def create_mapserver_layer_config(conn, areas, config):
     """Update mapserver layer config with time_extent from database"""
     layer_string = ""
+
     for area in areas:
         for product in areas[area]['products']:
+
             time_extent = ""
             time_default = ""
             select_string = (f"select to_char(min(time),'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') "
@@ -147,6 +151,7 @@ def create_mapserver_layer_config(conn, areas, config):
                              f"from {config['pg_table_name']} where product_name='{product}';")
             try:
                 print("Connection:", conn, flush=True)
+
                 if conn and conn.status:
                     print("STATUS:", conn.status, flush=True)
                     curs = conn.cursor()
@@ -154,19 +159,24 @@ def create_mapserver_layer_config(conn, areas, config):
                     fetched_time_extent = curs.fetchone()
                     curs.close()
                     time_extent = fetched_time_extent[0]
+
                     if time_extent:
                         time_default = time_extent.split('/')[1]
                     else:
                         continue
+
                     print("TIME EXTENT", time_extent)
 
             except psycopg2.OperationalError as poe:
                 print("Failed pg connect/execute:", str(poe))
 
             wms_extent_select_string = f"select st_extent(geom) from {config['pg_table_name']} where product_name='{product}';"
+
             extent = ""
+
             try:
                 print("Connection:", conn, flush=True)
+
                 if conn and conn.status:
                     print("STATUS:", conn.status, flush=True)
                     curs = conn.cursor()
@@ -174,33 +184,42 @@ def create_mapserver_layer_config(conn, areas, config):
                     fetched_extent = curs.fetchone()
                     curs.close()
                     extent = fetched_extent[0]
+
                     if extent:
                         extent = extent.replace("BOX(",'').replace(',', ' ').replace(")", '')
                     else:
                         continue
+
                     print("EXTENT", extent)
+
             except psycopg2.OperationalError as poe:
                 print("Failed pg connect/execute:", str(poe))
 
             srid_select_string = f"select st_srid(geom) from {config['pg_table_name']} where product_name='{product}';"
             srid = ""
+
             try:
                 print("Connection:", conn, flush=True)
+
                 if conn and conn.status:
                     print("STATUS:", conn.status, flush=True)
                     curs = conn.cursor()
                     curs.execute(f"{srid_select_string}")
                     fetched_srid = curs.fetchone()
                     curs.close()
+
                     if fetched_srid:
                         srid = fetched_srid[0]
                     else:
                         continue
+
                     print("SRID", srid)
+
             except psycopg2.OperationalError as poe:
                 print("Failed pg connect/execute:", str(poe))
 
             print(product)
+
             mapfile_layer_template=f"""
   LAYER
     STATUS OFF
@@ -245,27 +264,33 @@ def create_mapserver_layer_config(conn, areas, config):
 """
 
             layer_string += mapfile_layer_template
+
     return layer_string
+
 
 def collect_data_from_file(input_file):
     """Use rasterio to collect extent, time and srs info."""
     try:
         fname = os.path.basename(input_file)
         dataset = rasterio.open(input_file)
+
     except Exception as ex:
         print("Exception rasterio open is ", str(ex), flush=True)
 
     try:
         tags = dataset.tags()
+
     except Exception as ex:
         print("Exception dataset tags is ", str(ex), flush=True)
  
     try:
         img_time = datetime.datetime.strptime(tags['TIFFTAG_DATETIME'], '%Y:%m:%d %H:%M:%S')
+
     except Exception as ex:
         print("Exception img_time is ", str(ex), flush=True)
         traceback.print_exc()
         img_time = None
+
         return img_time, None
         
     try:
@@ -304,16 +329,20 @@ def collect_data_from_file(input_file):
 
     return img_time, geom
 
+
 def pg_connect(config):
+    """Connect to the database."""
     print("Connecting to pg", flush=True)
+
     conn = psycopg2.connect(host=config['host_name'], port='5432', dbname=config['pg_database_name'],
                             user=config['pg_user_name'],
                             password=config['pg_password'])
+
     return conn
+
 
 def insert_into_db(conn, filename, product_name, image_time, geom, db_config):
     """Check if file already exists, if not, insert into database. Return True if inserted."""
-
     insert = f"insert into {db_config['pg_table_name']}(filename, product_name, time, geom)"
     insert_string = "{} values('{}', '{}', '{:%Y-%m-%d %H:%M:%S}Z', {});".format(insert,
                                                                                  filename,
@@ -322,19 +351,40 @@ def insert_into_db(conn, filename, product_name, image_time, geom, db_config):
                                                                                  geom)
     select_string = f"select * from {db_config['pg_table_name']} where filename='{filename}';"
     inserted = False
+
     try:
         curs = conn.cursor()
         curs.execute(f"{select_string}")
+
         if curs.fetchone():
             print("File {} already in the db. Don't insert.".format(filename), flush=True)
         else:
             curs.execute(f"{insert_string}")
             inserted = True
+
         conn.commit()
         curs.close()
+
     except psycopg2.OperationalError as poe:
         print("Failed pg connect/execute:", str(poe))
+
     return inserted
+
+
+def main(args=None):
+    """Main script."""
+    parsed_args = parse_args(args=args)
+    config = read_config(parsed_args.config_file)
+
+    try:
+        # read from trollflow2 config file
+        areas = read_trollflow2_config(config['trollflow2_config_file'])
+    except:
+        # or use config in this config file
+        areas = config['product_list']['areas']
+
+    subscribe_and_ingest(config, areas)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
