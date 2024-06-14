@@ -33,7 +33,8 @@ Source: https://github.com/camptocamp/docker-mapserver#readme
 
 ## deploy container
 ```
-podman run --replace --name mapserver -d --rm --network pytroll_network -v /eodata/hrit_out:/data -v /root/seviri-processing/maps/:/etc/mapserver/ docker.io/camptocamp/mapserver 
+podmarun --replace --network pytroll_network -e MS_DEBUGLEVEL=3  -p 80:80/tcp --name mapserver -d --rm -v /eodata/hrit_out/:/mnt/output/ -v /root/seviri-processing/ewc-config/scripts/mapserver-demo.map:/etc/mapserver/mapserver.map -v ./output/mapfile_layers.map:/etc/mapfile_pytroll_layers.map docker.io/camptocamp/mapserver:7.6
+
 ```
 
 Verify that all containers are in the same network

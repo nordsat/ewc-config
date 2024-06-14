@@ -9,20 +9,19 @@ MAP
   IMAGECOLOR     255 255 255
   EXTENT         -7000000 2000000 4400000 12000000
 
-  WEB
-    IMAGEPATH "/tmp/"
-    IMAGEURL "/tmp/"
-    LEGENDFORMAT "text/html"
-    METADATA
-      "wms_title"          "WMS senda test/demo server localhost"  ##required
-      "wms_onlineresource" "http://localhost:8081/?map=/etc/mapserver/wms.map"   ##required
-      "wms_srs"            "EPSG:3978 EPSG:4326 EPSG:4269 EPSG:3857"  ##recommended
-      "wms_enable_request" "*"   ##necessary
-      "wms_include_items" "all"
-      "wms_feature_info_mime_type" "text/html"
-
-    END
-  END # Web
+  #WEB
+  #  IMAGEPATH "/tmp/"
+  #  IMAGEURL "/tmp/"
+  #  LEGENDFORMAT "text/html"
+  #  METADATA
+  #    "wms_title"          "WMS senda test/demo server mapserver-test.64.225.129.10.nip.io"  ##required
+  #    "wms_onlineresource" "http://mapserver-test.64.225.129.10.nip.io/cgi-bin/mapserv?MAP=/etc/mapserver/mapfile_test.map"   ##required
+  #    "wms_srs"            "EPSG:3978 EPSG:4326 EPSG:4269 EPSG:3857"  ##recommended
+  #    "wms_enable_request" "*"   ##necessary
+  #    "wms_include_items" "all"
+  #    "wms_feature_info_mime_type" "text/html"
+  #  END
+  #END # Web
 
   PROJECTION
     "init=epsg:3857"
@@ -49,7 +48,7 @@ MAP
 
  
   # Start of LAYER DEFINITIONS ---------------------------------------------
-  INCLUDE "/home/trygveas/Git/ewc-config/scripts/mapfile_layers.map" 
+  INCLUDE "/etc/mapfile_pytroll_layers.map" 
   # End of LAYER DEFINITIONS -------------------------------
 
 END # All map files must come to an end just as all other things must come to...

@@ -160,7 +160,7 @@ def create_mapserver_layer_config(conn, areas, config):
             time_default = ""
             select_string = (f"select to_char(min(time),'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') "
                              f"|| '/' || to_char(max(time), 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') "
-                             f"|| '/PT15M' "
+                             f"|| '/PT5M' "
                              f"from {config['pg_table_name']} where product_name='{product}';")
             try:
                 print("Connection:", conn, flush=True)
@@ -178,7 +178,7 @@ def create_mapserver_layer_config(conn, areas, config):
                     else:
                         continue
 
-                    _LOGGER.info("TIME EXTENT", time_extent)
+                    _LOGGER.info(f"TIME EXTENT {time_extent}")
 
             except psycopg2.OperationalError as poe:
                 _LOGGER.error(f"Failed pg connect/execute: {str(poe)}")
@@ -228,7 +228,7 @@ def create_mapserver_layer_config(conn, areas, config):
                     else:
                         continue
 
-                    _LOGGER.info("SRID {srid}")
+                    _LOGGER.info(f"SRID {srid}")
 
             except psycopg2.OperationalError as poe:
                 _LOGGER.error(f"Failed pg connect/execute: {str(poe)}")
