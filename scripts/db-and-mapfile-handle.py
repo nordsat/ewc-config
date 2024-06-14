@@ -58,6 +58,7 @@ def subscribe_and_ingest(config, areas):
     """
     with closing(create_subscriber_from_dict_config(config['subscriber_settings'])) as sub:
         for message in sub.recv():
+
             if message is None or message.type == 'beat':
                 _LOGGER.warning(f"Skipping message {message}. Not used here.")
                 continue
@@ -78,23 +79,33 @@ def subscribe_and_ingest(config, areas):
                 continue
             
             inserted = ingest_into_postgis(conn, files, config, areas)
-
+            
+            # REMOVE IT, IT'S JUST FOR TESTING
+            inserted = True
             if inserted:
+
+                # Create or update MAPfile
                 layer_string = create_mapserver_layer_config(conn, areas, config)
 
-                tmp_layer_file = f".{config['mapfile_include_layers_filename']}" 
-                with open(tmp_layer_file, 'wt') as fd:
+                tmp_layer_file_path = f"{config['mapfile_include_layers_filename']}" 
+
+                with open(tmp_layer_file_path, 'wt') as fd:
                     fd.write(layer_string)
-                if os.path.exists(tmp_layer_file):
-                    os.rename(tmp_layer_file, config['mapfile_include_layers_filename'])
+
+                #if os.path.exists(tmp_layer_file):
+                #    os.rename(tmp_layer_file, config['mapfile_include_layers_filename'])
 
 
 def parse_args(args=None):
     """Parse commandline arguments."""
-    parser = argparse.ArgumentParser("Message writer",
-                                     description="Write message into a json file for wms")
-    parser.add_argument("config_file",
-                        help="The configuration file to run on.")
+    parser = argparse.ArgumentParser(
+        "Message writer",
+        description="Write message into a json file for wms"
+    )
+    parser.add_argument(
+        "config_file",
+        help="The configuration file to run on."
+    )
     parser.add_argument("files", nargs="*", action="store")
 
     return parser.parse_args(args)
@@ -115,8 +126,10 @@ def ingest_into_postgis(conn, files, config, areas):
        Return True of one or more products were inserted
     """
     inserted = []
+
     if isinstance(files, str):
         files = [files, ]
+
     if files is None:
         files = []
 
@@ -165,10 +178,10 @@ def create_mapserver_layer_config(conn, areas, config):
                     else:
                         continue
 
-                    print("TIME EXTENT", time_extent)
+                    _LOGGER.info("TIME EXTENT", time_extent)
 
             except psycopg2.OperationalError as poe:
-                print("Failed pg connect/execute:", str(poe))
+                _LOGGER.error(f"Failed pg connect/execute: {str(poe)}")
 
             wms_extent_select_string = f"select st_extent(geom) from {config['pg_table_name']} where product_name='{product}';"
 
@@ -179,6 +192,7 @@ def create_mapserver_layer_config(conn, areas, config):
 
                 if conn and conn.status:
                     print("STATUS:", conn.status, flush=True)
+
                     curs = conn.cursor()
                     curs.execute(f"{wms_extent_select_string}")
                     fetched_extent = curs.fetchone()
@@ -187,13 +201,14 @@ def create_mapserver_layer_config(conn, areas, config):
 
                     if extent:
                         extent = extent.replace("BOX(",'').replace(',', ' ').replace(")", '')
+
                     else:
                         continue
 
-                    print("EXTENT", extent)
+                    _LOGGER.info(f"EXTENT {extent}")
 
             except psycopg2.OperationalError as poe:
-                print("Failed pg connect/execute:", str(poe))
+                _LOGGER.error(f"Failed pg connect/execute: {str(poe)}")
 
             srid_select_string = f"select st_srid(geom) from {config['pg_table_name']} where product_name='{product}';"
             srid = ""
@@ -213,12 +228,12 @@ def create_mapserver_layer_config(conn, areas, config):
                     else:
                         continue
 
-                    print("SRID", srid)
+                    _LOGGER.info("SRID {srid}")
 
             except psycopg2.OperationalError as poe:
-                print("Failed pg connect/execute:", str(poe))
+                _LOGGER.error(f"Failed pg connect/execute: {str(poe)}")
 
-            print(product)
+            _LOGGER.info(f"Product: {product}")
 
             mapfile_layer_template=f"""
   LAYER
