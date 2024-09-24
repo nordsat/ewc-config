@@ -73,4 +73,4 @@ workers:
   - fun: !!python/name:trollflow2.plugins.load_composites
   - fun: !!python/name:trollflow2.plugins.resample
   - fun: !!python/name:trollflow2.plugins.save_datasets
-  - fun: !!python/object:trollflow2.plugins.FilePublisher {}
+  - fun: !!python/object:trollflow2.plugins.FilePublisher {port: 10009, nameservers: false}
