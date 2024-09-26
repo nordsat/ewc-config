@@ -7,18 +7,52 @@ product_list:
   reader: fci_l1c_nc
   fname_pattern:
     "{start_time:%Y%m%d_%H%M}_{platform_name}_{areaname}_{productname}.{format}"
-  sunzen_check_lon: 5.0
-  sunzen_check_lat: 56.0
+  # sunzen_check_lon: 5.0
+  # sunzen_check_lat: 56.0
   # Delay composite generation until resampling is done.  This is
   # faster when many products share the same channels
   delay_composites: True
 
   areas:
     nordsat1km:
-
       # Add a priority. Not relevant for one area, but just to show the option
       priority: 1
       areaname: nordsat1km
+      # Search radius for resampling
+      radius_of_influence: 20000
+      # Resampling method
+      resampler: nearest
+
+      products:
+        true_color_day:
+          productname: true_color
+          formats:
+            - format: tif
+              writer: geotiff
+        cloud_phase_day:
+          productname: cloud_phase
+          formats:
+            - format: tif
+              writer: geotiff
+        cimss_cloud_type_day:
+          productname: cimss_cloud_type
+          formats:
+            - format: tif
+              writer: geotiff
+        natural_color_day:
+          productname: natural_color
+          formats:
+            - format: tif
+              writer: geotiff
+        day_essl_colorized_low_level_moisture:
+          productname: low_level_moisture
+          formats:
+            - format: tif
+              writer: geotiff
+
+    nordsat2km:
+      priority: 1
+      areaname: nordsat2km
       # Search radius for resampling
       radius_of_influence: 20000
       # Resampling method
@@ -30,38 +64,13 @@ product_list:
           formats:
             - format: tif
               writer: geotiff
-        true_color_day:
-          productname: true_color_day
-          formats:
-            - format: tif
-              writer: geotiff
-        cloud_phase_day:
-          productname: cloud_phase_day
-          formats:
-            - format: tif
-              writer: geotiff
-        cimss_cloud_type_day:
-          productname: cimss_cloud_type_day
-          formats:
-            - format: tif
-              writer: geotiff
-        natural_color_day:
-          productname: natural_color_day
-          formats:
-            - format: tif
-              writer: geotiff
         night_fog_night:
-          productname: night_fog_night
+          productname: night_fog
           formats:
             - format: tif
               writer: geotiff
         fog:
           productname: fog
-          formats:
-            - format: tif
-              writer: geotiff
-        night_fog:
-          productname: night_fog
           formats:
             - format: tif
               writer: geotiff

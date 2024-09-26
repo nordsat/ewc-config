@@ -17,6 +17,18 @@ nordsat1km:
   projection:
     init: epsg:3857
   shape:
+    height: 9000
+    width: 14000
+  area_extent:
+    lower_left_xy: [-7000000, 3000000]
+    upper_right_xy: [7000000, 12000000]
+    units: m
+
+nordsat2km:
+  description: Nordsat area in webmercator for fci
+  projection:
+    init: epsg:3857
+  shape:
     height: 4500
     width: 7000
   area_extent:
