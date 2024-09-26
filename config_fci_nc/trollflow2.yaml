@@ -25,27 +25,27 @@ product_list:
 
       products:
         true_color_day:
-          productname: true_color
+          productname: true_color_day
           formats:
             - format: tif
               writer: geotiff
         cloud_phase_day:
-          productname: cloud_phase
+          productname: cloud_phase_day
           formats:
             - format: tif
               writer: geotiff
         cimss_cloud_type_day:
-          productname: cimss_cloud_type
+          productname: cimss_cloud_type_day
           formats:
             - format: tif
               writer: geotiff
         natural_color_day:
-          productname: natural_color
+          productname: natural_color_day
           formats:
             - format: tif
               writer: geotiff
         day_essl_colorized_low_level_moisture:
-          productname: low_level_moisture
+          productname: day_essl_colorized_low_level_moisture
           formats:
             - format: tif
               writer: geotiff
@@ -65,7 +65,7 @@ product_list:
             - format: tif
               writer: geotiff
         night_fog_night:
-          productname: night_fog
+          productname: night_fog_night
           formats:
             - format: tif
               writer: geotiff
