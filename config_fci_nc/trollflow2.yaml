@@ -69,8 +69,8 @@ product_list:
           formats:
             - format: tif
               writer: geotiff
-        fog:
-          productname: fog
+        24h_microphysics:
+          productname: 24h_microphysics
           formats:
             - format: tif
               writer: geotiff
