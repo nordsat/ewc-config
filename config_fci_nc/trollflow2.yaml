@@ -12,16 +12,13 @@ product_list:
   # Delay composite generation until resampling is done.  This is
   # faster when many products share the same channels
   delay_composites: True
+  resampler: gradient_search
 
   areas:
     nordsat1km:
       # Add a priority. Not relevant for one area, but just to show the option
       priority: 1
       areaname: nordsat1km
-      # Search radius for resampling
-      radius_of_influence: 20000
-      # Resampling method
-      resampler: nearest
 
       products:
         true_color_day:
@@ -29,34 +26,35 @@ product_list:
           formats:
             - format: tif
               writer: geotiff
+              driver: COG
         cloud_phase_day:
           productname: cloud_phase_day
           formats:
             - format: tif
               writer: geotiff
+              driver: COG
         cimss_cloud_type_day:
           productname: cimss_cloud_type_day
           formats:
             - format: tif
               writer: geotiff
+              driver: COG
         natural_color_day:
           productname: natural_color_day
           formats:
             - format: tif
               writer: geotiff
+              driver: COG
         day_essl_colorized_low_level_moisture:
           productname: day_essl_colorized_low_level_moisture
           formats:
             - format: tif
               writer: geotiff
+              driver: COG
 
     nordsat2km:
       priority: 1
       areaname: nordsat2km
-      # Search radius for resampling
-      radius_of_influence: 20000
-      # Resampling method
-      resampler: nearest
 
       products:
         airmass:
@@ -64,16 +62,19 @@ product_list:
           formats:
             - format: tif
               writer: geotiff
+              driver: COG
         night_fog_night:
           productname: night_fog_night
           formats:
             - format: tif
               writer: geotiff
+              driver: COG
         24h_microphysics:
           productname: 24h_microphysics
           formats:
             - format: tif
               writer: geotiff
+              driver: COG
 
 
 workers:
