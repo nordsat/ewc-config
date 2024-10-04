@@ -54,7 +54,7 @@ product_list:
               quality: 95
               driver: COG
         day_essl_low_level_moisture:
-          productname: day_essl_colorized_low_level_moisture
+          productname: day_essl_low_level_moisture
           formats:
             - format: tif
               writer: geotiff
