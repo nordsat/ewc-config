@@ -58,7 +58,7 @@ product_list:
           formats:
             - format: tif
               writer: geotiff
-              compress: WEBP
+              compress: JPEG
               quality: 95
               driver: COG
 
