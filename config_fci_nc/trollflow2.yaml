@@ -15,10 +15,10 @@ product_list:
   resampler: gradient_search
 
   areas:
-    nordsat1km:
+    nordsat_stere_1km:
       # Add a priority. Not relevant for one area, but just to show the option
       priority: 1
-      areaname: nordsat1km
+      areaname: nordsat_stere_1km
 
       products:
         true_color_day:
@@ -62,9 +62,9 @@ product_list:
               quality: 95
               driver: COG
 
-    nordsat2km:
+    nordsat_stere_2km:
       priority: 1
-      areaname: nordsat2km
+      areaname: nordsat_stere_2km
 
       products:
         airmass:
