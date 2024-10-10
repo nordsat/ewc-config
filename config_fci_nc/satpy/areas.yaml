@@ -25,7 +25,7 @@ nordsat2km:
 nordsat_stere_1km:
   description: Nordsat area in Polar stereographic for open geoweb
   projection:
-    epsg:5041
+    epsg:32661
   shape:
     height: 6250
     width: 9000
@@ -36,7 +36,7 @@ nordsat_stere_1km:
 nordsat_stere_2km:
   description: Nordsat area in Polar stereographic for open geoweb
   projection:
-    epsg:5041
+    epsg:32661
   shape:
     height: 3125
     width: 4500
