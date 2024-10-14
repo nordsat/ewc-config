@@ -18,7 +18,7 @@ product_list:
     nordsat_stere_500m:
       # Add a priority. Not relevant for one area, but just to show the option
       priority: 1
-      areaname: nordsat_stere_1km
+      areaname: nordsat_stere_500m
 
       products:
         true_color_day:
