@@ -22,6 +22,18 @@ nordsat2km:
     upper_right_xy: [7000000, 12000000]
     units: m
 
+nordsat_stere_500m:
+  description: Nordsat area in Polar stereographic for open geoweb
+  projection:
+    epsg:32661
+  shape:
+    height: 12500
+    width: 18000
+  area_extent:
+    lower_left_xy: [-2000000.0, -5500000.0]
+    upper_right_xy: [7000000.0, 750000]
+
+
 nordsat_stere_1km:
   description: Nordsat area in Polar stereographic for open geoweb
   projection:

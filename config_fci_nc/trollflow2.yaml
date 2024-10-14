@@ -15,7 +15,7 @@ product_list:
   resampler: gradient_search
 
   areas:
-    nordsat_stere_1km:
+    nordsat_stere_500m:
       # Add a priority. Not relevant for one area, but just to show the option
       priority: 1
       areaname: nordsat_stere_1km
@@ -53,12 +53,27 @@ product_list:
               compress: WEBP
               quality: 95
               driver: COG
+
+    nordsat_stere_1km:
+      # Add a priority. Not relevant for one area, but just to show the option
+      priority: 1
+      areaname: nordsat_stere_1km
+
+      products:
         day_essl_low_level_moisture:
           productname: day_essl_low_level_moisture
           formats:
             - format: tif
               writer: geotiff
               compress: JPEG
+              quality: 95
+              driver: COG
+        colorized_ir_clouds:
+          productname: colorized_ir_clouds
+          formats:
+            - format: tif
+              writer: geotiff
+              compress: WEBP
               quality: 95
               driver: COG
 
@@ -85,14 +100,6 @@ product_list:
               driver: COG
         24h_microphysics:
           productname: 24h_microphysics
-          formats:
-            - format: tif
-              writer: geotiff
-              compress: WEBP
-              quality: 95
-              driver: COG
-        colorized_ir_clouds:
-          productname: colorized_ir_clouds
           formats:
             - format: tif
               writer: geotiff
