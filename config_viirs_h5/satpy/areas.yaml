@@ -1,0 +1,5 @@
+dynamic_32661_750:
+  description: Polar stereographic dynamic in 750m resolution
+  projection:
+    epsg:32661
+  resolution: 750
