@@ -1,0 +1,12 @@
+enhancements:
+  image_ready:
+    standard_name: image_ready
+    operations:
+      # - name: no_op
+      #   method: !!python/name:satpy.enhancements.no_op
+      - name: stretch
+        method: !!python/name:satpy.enhancements.stretch
+        kwargs:
+         stretch: crude
+         min_stretch: 0
+         max_stretch: 1

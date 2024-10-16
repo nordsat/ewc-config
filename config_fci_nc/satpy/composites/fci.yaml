@@ -1,7 +1,7 @@
 composites:
   true_color_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
-    standard_name: null_enhancement
+    standard_name: image_ready
     day_night: day_only
     include_alpha: true
     lim_low: 87.0
@@ -11,7 +11,7 @@ composites:
 
   night_fog_night:
     compositor: !!python/name:satpy.composites.DayNightCompositor
-    standard_name: null_enhancement
+    standard_name: image_ready
     day_night: night_only
     include_alpha: true
     lim_low: 87.0
@@ -21,7 +21,7 @@ composites:
 
   cloud_phase_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
-    standard_name: null_enhancement
+    standard_name: image_ready
     day_night: day_only
     include_alpha: true
     lim_low: 87.0
@@ -31,7 +31,7 @@ composites:
 
   cimss_cloud_type_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
-    standard_name: null_enhancement
+    standard_name: image_ready
     day_night: day_only
     include_alpha: true
     lim_low: 87.0
@@ -41,7 +41,7 @@ composites:
 
   natural_color_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
-    standard_name: null_enhancement
+    standard_name: image_ready
     day_night: day_only
     include_alpha: true
     lim_low: 87.0
