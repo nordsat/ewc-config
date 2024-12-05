@@ -31,3 +31,37 @@ nordsat_stere_2km:
   area_extent:
     lower_left_xy: [-2000000.0, -5500000.0]
     upper_right_xy: [7000000.0, 750000]
+
+nordsat_3857_850m:
+  description: Nordsat area in spherical mercator for open geoweb
+  projection:
+    epsg:3857
+  shape:
+    height: 15000
+    width: 18500
+  area_extent:
+    lower_left_xy: [-7800000, 2857700]
+    upper_right_xy: [7800000, 15500000]
+
+
+nordsat_3857_1.7km:
+  description: Nordsat area in spherical mercator for open geoweb
+  projection:
+    epsg:3857
+  shape:
+    height: 7500
+    width: 9250
+  area_extent:
+    lower_left_xy: [-7800000, 2857700]
+    upper_right_xy: [7800000, 15500000]
+
+nordsat_3857_3.4km:
+  description: Nordsat area in spherical mercator for open geoweb
+  projection:
+    epsg:3857
+  shape:
+    height: 3750
+    width: 4625
+  area_extent:
+    lower_left_xy: [-7800000, 2857700]
+    upper_right_xy: [7800000, 15500000]
