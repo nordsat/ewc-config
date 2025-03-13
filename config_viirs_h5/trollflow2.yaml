@@ -15,10 +15,10 @@ product_list:
   resampler: ewa
 
   areas:
-    dynamic_32661_750:
+    dynamic_3857_750:
       # Add a priority. Not relevant for one area, but just to show the option
       priority: 1
-      areaname: dynamic_32661_750
+      areaname: dynamic_3857_750
 
       products:
         true_color_day:
@@ -29,6 +29,7 @@ product_list:
               compress: WEBP
               quality: 95
               driver: COG
+
         cloud_phase_day:
           productname: cloud_phase_day
           formats:
@@ -37,6 +38,7 @@ product_list:
               compress: WEBP
               quality: 95
               driver: COG
+
         cimss_cloud_type_day:
           productname: cimss_cloud_type_day
           formats:
@@ -45,6 +47,7 @@ product_list:
               compress: WEBP
               quality: 95
               driver: COG
+
         natural_color_day:
           productname: natural_color_day
           formats:
@@ -63,14 +66,6 @@ product_list:
               quality: 95
               driver: COG
 
-        # airmass:
-        #   productname: airmass
-        #   formats:
-        #     - format: tif
-        #       writer: geotiff
-        #       compress: WEBP
-        #       quality: 95
-        #       driver: COG
         night_fog_night:
           productname: night_fog_night
           formats:
@@ -79,6 +74,7 @@ product_list:
               compress: WEBP
               quality: 95
               driver: COG
+
         24h_microphysics:
           productname: 24h_microphysics
           formats:

@@ -3,3 +3,9 @@ dynamic_32661_750:
   projection:
     epsg:32661
   resolution: 750
+
+dynamic_3857_750:
+  description: Web mercator dynamic in 750m resolution
+  projection:
+    epsg:3857
+  resolution: 750
