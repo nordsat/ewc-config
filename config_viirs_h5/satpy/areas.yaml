@@ -4,8 +4,8 @@ dynamic_32661_750:
     epsg:32661
   resolution: 750
 
-dynamic_3857_750:
-  description: Web mercator dynamic in 750m resolution
+dynamic_3575_750:
+  description: LAEA dynamic in 750m resolution
   projection:
-    epsg:3857
+    epsg:3575
   resolution: 750

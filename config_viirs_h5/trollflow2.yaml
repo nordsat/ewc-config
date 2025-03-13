@@ -15,10 +15,10 @@ product_list:
   resampler: ewa
 
   areas:
-    dynamic_3857_750:
+    dynamic_3575_750:
       # Add a priority. Not relevant for one area, but just to show the option
       priority: 1
-      areaname: dynamic_3857_750
+      areaname: dynamic_3575_750
 
       products:
         true_color_day:
