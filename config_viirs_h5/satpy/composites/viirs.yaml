@@ -1,4 +1,15 @@
 composites:
+  true_color:
+    compositor: !!python/name:satpy.composites.GenericCompositor
+    prerequisites:
+    - name: M05
+      modifiers: [sunz_corrected, rayleigh_corrected]
+    - name: M04
+      modifiers: [sunz_corrected, rayleigh_corrected]
+    - name: M03
+      modifiers: [sunz_corrected, rayleigh_corrected]
+    standard_name: true_color
+
   true_color_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
     standard_name: null_enhancement
@@ -19,15 +30,16 @@ composites:
     prerequisites:
       - name: night_fog
 
-  cloud_phase_day:
-    compositor: !!python/name:satpy.composites.DayNightCompositor
-    standard_name: null_enhancement
-    day_night: day_only
-    include_alpha: true
-    lim_low: 87.0
-    lim_high: 93.0
+  natural_color:
+    compositor: !!python/name:satpy.composites.GenericCompositor
     prerequisites:
-      - name: cloud_phase
+    - name: M10
+      modifiers: [sunz_corrected]
+    - name: M07
+      modifiers: [sunz_corrected]
+    - name: M05
+      modifiers: [sunz_corrected]
+    standard_name: natural_color
 
   natural_color_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
