@@ -13,6 +13,7 @@ product_list:
   # faster when many products share the same channels
   delay_composites: True
   # resampler: ewa
+  radius_of_influence: null
 
   areas:
     dynamic_3575_750:
