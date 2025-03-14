@@ -39,26 +39,8 @@ product_list:
               quality: 95
               driver: COG
 
-        cimss_cloud_type_day:
-          productname: cimss_cloud_type_day
-          formats:
-            - format: tif
-              writer: geotiff
-              compress: WEBP
-              quality: 95
-              driver: COG
-
         natural_color_day:
           productname: natural_color_day
-          formats:
-            - format: tif
-              writer: geotiff
-              compress: WEBP
-              quality: 95
-              driver: COG
-
-        colorized_ir_clouds:
-          productname: colorized_ir_clouds
           formats:
             - format: tif
               writer: geotiff
