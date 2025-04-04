@@ -12,7 +12,7 @@ product_list:
   # Delay composite generation until resampling is done.  This is
   # faster when many products share the same channels
   delay_composites: True
-  resampler: ewa
+  radius_of_influence: 2000
 
   areas:
     dynamic_3575_750:
