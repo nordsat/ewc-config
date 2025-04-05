@@ -57,14 +57,14 @@ product_list:
               quality: 95
               driver: COG
 
-        colorized_ir_clouds:
-          productname: colorized_ir_clouds
-          formats:
-            - format: tif
-              writer: geotiff
-              compress: WEBP
-              quality: 95
-              driver: COG
+        # colorized_ir_clouds:
+        #   productname: colorized_ir_clouds
+        #   formats:
+        #     - format: tif
+        #       writer: geotiff
+        #       compress: WEBP
+        #       quality: 95
+        #       driver: COG
 
         night_fog_night:
           productname: night_fog_night
