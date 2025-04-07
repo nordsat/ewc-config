@@ -11,7 +11,8 @@ product_list:
   # sunzen_check_lat: 56.0
   # Delay composite generation until resampling is done.  This is
   # faster when many products share the same channels
-  delay_composites: True
+  delay_composites: true
+  mask_area: true
   radius_of_influence: 2000
 
   areas:
