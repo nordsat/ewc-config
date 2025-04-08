@@ -74,6 +74,14 @@ product_list:
               compress: WEBP
               quality: 95
               driver: COG
+        sandwich_day:
+          productname: sandwich_day
+          formats:
+            - format: tif
+              writer: geotiff
+              compress: WEBP
+              quality: 95
+              driver: COG
 
     nordsat_3857_3.4km:
       priority: 1

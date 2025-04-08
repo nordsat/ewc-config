@@ -92,6 +92,24 @@ composites:
     prerequisites:
       - name: natural_color
 
+  ir_sandwich:
+    compositor: !!python/name:satpy.composites.SandwichCompositor
+    standard_name: ir_sandwich
+    prerequisites:
+      - name: "vis_06"
+        modifiers: [effective_solar_pathlength_corrected]
+      - name: colorized_ir_clouds
+
+  sandwich_day:
+    compositor: !!python/name:satpy.composites.DayNightCompositor
+    standard_name: image_ready
+    day_night: day_only
+    include_alpha: true
+    lim_low: 90.0
+    lim_high: 93.0
+    prerequisites:
+      - name: ir_sandwich
+
   24h_microphysics:
     references:
       EUMETRAIN Quick Guide: https://eumetrain.org/sites/default/files/2021-05/24MicroRGB.pdf
