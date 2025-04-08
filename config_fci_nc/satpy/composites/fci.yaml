@@ -1,13 +1,40 @@
 composites:
+
+  ndvi_hybrid_green_path:
+    description: Same as ndvi_hybrid_green, but with pathlength correction
+    compositor: !!python/name:satpy.composites.spectral.NDVIHybridGreen
+    limits: [0.15, 0.05]
+    strength: 3.0
+    prerequisites:
+      - name: vis_05
+        modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+      - name: vis_06
+        modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+      - name: vis_08
+        modifiers: [effective_solar_pathlength_corrected]
+    standard_name: toa_bidirectional_reflectance
+
+  true_color_path:
+    compositor: !!python/name:satpy.composites.SelfSharpenedRGB
+    description: >
+      Same as true_color, but with pathlength correction.
+    prerequisites:
+      - name: vis_06
+        modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+      - name: ndvi_hybrid_green_path
+      - name: vis_04
+        modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+    standard_name: true_color
+
   true_color_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
     standard_name: image_ready
     day_night: day_only
     include_alpha: true
-    lim_low: 87.0
+    lim_low: 90.0
     lim_high: 93.0
     prerequisites:
-      - name: true_color_fully_sunzencorrected
+      - name: true_color_path
 
   night_fog_night:
     compositor: !!python/name:satpy.composites.DayNightCompositor
@@ -19,12 +46,28 @@ composites:
     prerequisites:
       - name: night_fog
 
+  cloud_phase:
+    description: >
+      Equal to cloud_phase recipe, but with additional pathlength correction.
+    references:
+      EUMETRAIN Quick Guide: https://resources.eumetrain.org/rgb_quick_guides/quick_guides/CloudPhaseRGB.pdf
+      Recipe: https://resources.eumetrain.org/RGBguide/recipes/RGB_recipes.pdf
+    compositor: !!python/name:satpy.composites.GenericCompositor
+    prerequisites:
+      - name: nir_16
+        modifiers: [effective_solar_pathlength_corrected]
+      - name: nir_22
+        modifiers: [effective_solar_pathlength_corrected]
+      - name: vis_06
+        modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+    standard_name: cloud_phase
+
   cloud_phase_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
     standard_name: image_ready
     day_night: day_only
     include_alpha: true
-    lim_low: 87.0
+    lim_low: 90.0
     lim_high: 93.0
     prerequisites:
       - name: cloud_phase
@@ -48,3 +91,25 @@ composites:
     lim_high: 93.0
     prerequisites:
       - name: natural_color
+
+  24h_microphysics:
+    references:
+      EUMETRAIN Quick Guide: https://eumetrain.org/sites/default/files/2021-05/24MicroRGB.pdf
+      Recipe: https://resources.eumetrain.org/RGBguide/recipes/RGB_recipes.pdf
+    compositor: !!python/name:satpy.composites.GenericCompositor
+    prerequisites:
+    - compositor: !!python/name:satpy.composites.DifferenceCompositor
+      prerequisites:
+          - name: ir_123
+            resolution: 2000
+          - name: ir_105
+            resolution: 2000
+    - compositor: !!python/name:satpy.composites.DifferenceCompositor
+      prerequisites:
+          - name: ir_105
+            resolution: 2000
+          - name: ir_87
+            resolution: 2000
+    - name: ir_105
+      resolution: 2000
+    standard_name: 24h_microphysics
