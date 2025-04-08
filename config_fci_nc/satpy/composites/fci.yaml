@@ -26,13 +26,20 @@ composites:
         modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
     standard_name: true_color
 
+  # true_color_day:
+  #   compositor: !!python/name:satpy.composites.MaskVisibleNightCompositor
+  #   standard_name: image_ready
+  #   lim_low: 87.0
+  #   prerequisites:
+  #     - name: true_color_path
+
   true_color_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
     standard_name: image_ready
     day_night: day_only
     include_alpha: true
-    lim_low: 90.0
-    lim_high: 93.0
+    lim_low: 87.0
+    lim_high: 90.0
     prerequisites:
       - name: true_color_path
 
@@ -62,13 +69,20 @@ composites:
         modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
     standard_name: cloud_phase
 
+  # cloud_phase_day:
+  #   compositor: !!python/name:satpy.composites.MaskVisibleNightCompositor
+  #   standard_name: image_ready
+  #   lim_low: 87.0
+  #   prerequisites:
+  #     - name: cloud_phase
+
   cloud_phase_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
     standard_name: image_ready
     day_night: day_only
     include_alpha: true
-    lim_low: 90.0
-    lim_high: 93.0
+    lim_low: 87.0
+    lim_high: 90.0
     prerequisites:
       - name: cloud_phase
 
@@ -78,7 +92,7 @@ composites:
     day_night: day_only
     include_alpha: true
     lim_low: 87.0
-    lim_high: 93.0
+    lim_high: 90.0
     prerequisites:
       - name: cimss_cloud_type
 
@@ -88,7 +102,7 @@ composites:
     day_night: day_only
     include_alpha: true
     lim_low: 87.0
-    lim_high: 93.0
+    lim_high: 90.0
     prerequisites:
       - name: natural_color
 
@@ -105,8 +119,8 @@ composites:
     standard_name: image_ready
     day_night: day_only
     include_alpha: true
-    lim_low: 90.0
-    lim_high: 93.0
+    lim_low: 87.0
+    lim_high: 90.0
     prerequisites:
       - name: ir_sandwich
 

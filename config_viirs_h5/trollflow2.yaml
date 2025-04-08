@@ -31,14 +31,14 @@ product_list:
               quality: 95
               driver: COG
 
-        # cloud_phase_day:
-        #   productname: cloud_phase_day
-        #   formats:
-        #     - format: tif
-        #       writer: geotiff
-        #       compress: WEBP
-        #       quality: 95
-        #       driver: COG
+        cloud_phase_day:
+          productname: cloud_phase_day
+          formats:
+            - format: tif
+              writer: geotiff
+              compress: WEBP
+              quality: 95
+              driver: COG
 
         # cimss_cloud_type_day:
         #   productname: cimss_cloud_type_day

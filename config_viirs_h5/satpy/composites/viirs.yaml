@@ -1,4 +1,27 @@
 composites:
+  true_color:
+    compositor: !!python/name:satpy.composites.RatioSharpenedRGB
+    prerequisites:
+    - name: M05
+      modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+    - name: M04
+      modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+    - name: M03
+      modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+    optional_prerequisites:
+    - name: I01
+      modifiers: [sunz_corrected_iband, rayleigh_corrected_iband]
+    standard_name: true_color
+    high_resolution_band: red
+
+  # true_color_day:
+  #   compositor: !!python/name:satpy.composites.MaskVisibleNightCompositor
+  #   standard_name: image_ready
+  #   lim_low: 88.0
+  #   prerequisites:
+  #     - name: true_color
+
+
   true_color_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
     standard_name: null_enhancement
@@ -19,12 +42,28 @@ composites:
     prerequisites:
       - name: night_fog
 
+  cloud_phase:
+    description: >
+      EUMETSAT Cloud Phase RGB product
+    references:
+      EUMETRAIN Quick Guide: https://resources.eumetrain.org/rgb_quick_guides/quick_guides/CloudPhaseRGB.pdf
+      Recipe : https://resources.eumetrain.org/RGBguide/recipes/RGB_recipes.pdf
+    compositor: !!python/name:satpy.composites.GenericCompositor
+    prerequisites:
+      - name: M10
+        modifiers: [effective_solar_pathlength_corrected]
+      - name: M11
+        modifiers: [effective_solar_pathlength_corrected]
+      - name: M05
+        modifiers: [effective_solar_pathlength_corrected]
+    standard_name: cloud_phase
+
   cloud_phase_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
     standard_name: null_enhancement
     day_night: day_only
     include_alpha: true
-    lim_low: 87.0
+    lim_low: 90.0
     lim_high: 93.0
     prerequisites:
       - name: cloud_phase
