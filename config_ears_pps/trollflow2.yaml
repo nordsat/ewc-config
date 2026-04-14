@@ -1,0 +1,90 @@
+product_list:
+
+  output_dir:
+    /mnt/output/
+  fname_pattern:
+    "{start_time:%Y%m%d_%H%M}_{platform_name}_{areaname}_{productname}.{format}"
+  reader: nwcsaf-pps_nc
+  subscribe_topics:
+    - /ears/avhrr/pps/gatherer
+  publish_topic:
+    /ears/avhrr/pps/swath/nc
+  check_metadata:
+    # Only these platforms are processed
+    platform_name:
+    - Metop-B
+    - Metop-C
+  min_coverage: 20.0
+  delay_composites: True
+  radius_of_incluence: 2000
+
+  areas:
+    dynamic_3575_750:
+      priority: 1
+      areaname: dynamic_3575_750
+      products:
+        cma:
+          formats:
+          - format: tif
+            writer: geotiff
+            overviews: []
+            blockxsize: 512
+            blockysize: 512
+            tiled: true
+            driver: COG
+            enhance: false
+            dtype: !!python/name:numpy.uint16
+            fill_value: 255
+        ct:
+          formats:
+          - format: tif
+            writer: geotiff
+            overviews: []
+            blockxsize: 512
+            blockysize: 512
+            tiled: true
+            driver: COG
+            enhance: false
+            dtype: !!python/name:numpy.uint16
+            fill_value: 255
+        ctth_alti:
+          formats:
+          - format: tif
+            writer: geotiff
+            overviews: []
+            blockxsize: 512
+            blockysize: 512
+            tiled: true
+            driver: COG
+            enhance: false
+            dtype: !!python/name:numpy.float32
+        ctth_pres:
+          formats:
+          - format: tif
+            writer: geotiff
+            overviews: []
+            blockxsize: 512
+            blockysize: 512
+            tiled: true
+            driver: COG
+            enhance: false
+            dtype: !!python/name:numpy.float32
+        ctth_tempe:
+          formats:
+          - format: tif
+            writer: geotiff
+            overviews: []
+            blockxsize: 512
+            blockysize: 512
+            tiled: true
+            driver: COG
+            enhance: false
+            dtype: !!python/name:numpy.float32
+
+workers:
+  - fun: !!python/name:trollflow2.plugins.check_metadata
+  - fun: !!python/name:trollflow2.plugins.create_scene
+  - fun: !!python/name:trollflow2.plugins.load_composites
+  - fun: !!python/name:trollflow2.plugins.resample
+  - fun: !!python/name:trollflow2.plugins.save_datasets
+  - fun: !!python/object:trollflow2.plugins.FilePublisher {nameservers: False, port: 40000}
