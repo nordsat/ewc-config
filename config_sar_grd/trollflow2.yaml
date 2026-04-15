@@ -1,0 +1,48 @@
+product_list:
+  output_dir: /san1/polar_out/global/imagery/
+  use_extern_calib: false
+  fname_pattern:
+    "{start_time:%Y%m%d_%H%M%S}-{platform_name:3s}-{scan_mode:2s}-{productname}_40m.tiff"
+  publish_topic: /raster/2A/sar-c
+  reader: sar-c_safe
+  use_tmp_file: true
+  delay_composites: false
+  resampler: gradient_search
+  overviews: [ 2, 4, 8 16, 32, 64, 128, 256]
+  overviews_resampling: bilinear
+
+  areas:
+    null:
+      areaname: satproj
+      products:
+        sar-ice-log-iw:
+          productname: sar-ice-log-iw
+          resolution: 80
+          formats:
+            - format: tif
+              writer: geotiff
+              blockxsize: 512
+              blockysize: 512
+              tiled: true
+              compress: JPEG
+              photometric: YCBCR
+              fill_value: 0
+        vv-fmi-db:
+          productname: VV
+          resolution: 80
+          formats:
+            - format: tif
+              writer: geotiff
+              blockxsize: 512
+              blockysize: 512
+              tiled: true
+              compress: JPEG
+              fill_value: 0
+
+workers:
+- fun: !!python/name:trollflow2.plugins.create_scene
+- fun: !!python/name:trollflow2.plugins.load_composites
+- fun: !!python/name:trollflow2.plugins.resample
+- fun: !!python/name:trollflow2.plugins.save_datasets
+- fun: !!python/name:trollflow2.plugins.add_overviews
+- fun: !!python/object:trollflow2.plugins.FilePublisher {}
