@@ -1,0 +1,25 @@
+backend: dataspace
+fs_config:
+  filter_string: "contains(Name,'IW_GRDH') and contains(Name, 'COG') and Collection/Name eq 'SENTINEL-1' and OData.CSC.Intersects(area=geography'SRID=4326;POLYGON((-70.00 89.5,0.00 90.0,30.60 89.5,30.60 53.5,-70.00 53.5,-70.00 89.5))')"
+  dataspace_auth:
+    netrc_host: catalogue.dataspace.copernicus.eu
+  storage_options:
+    profile: copernicus
+  polling_interval:
+    minutes: 1
+  start_from:
+    hours: 1
+publisher_config:
+  name: s1_watcher
+  nameservers: false
+  port: 10001
+message_config:
+  subject: /segment/SAFE/GRD/IW/
+  atype: file
+  aliases:
+    sensor:
+      SAR: SAR-C
+data_config:
+  unpack:
+    format: directory
+    include_dir_in_uid: true
