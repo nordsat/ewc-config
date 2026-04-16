@@ -3,6 +3,7 @@ fs_config:
   filter_string: "contains(Name,'IW_GRDH') and contains(Name, 'COG') and Collection/Name eq 'SENTINEL-1' and OData.CSC.Intersects(area=geography'SRID=4326;POLYGON((-70.00 89.5,0.00 90.0,30.60 89.5,30.60 53.5,-70.00 53.5,-70.00 89.5))')"
   dataspace_auth:
     netrc_host: catalogue.dataspace.copernicus.eu
+    netrc_file: /config/.netrc
   storage_options:
     profile: copernicus
   polling_interval:
@@ -23,3 +24,4 @@ data_config:
   unpack:
     format: directory
     include_dir_in_uid: true
+
