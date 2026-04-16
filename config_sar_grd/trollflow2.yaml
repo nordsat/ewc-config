@@ -8,8 +8,7 @@ product_list:
   reader: sar-c_safe
   use_tmp_file: true
   delay_composites: false
-  resampler: gradient_search
-  overviews: [2, 4, 8 16, 32, 64, 128, 256]
+  overviews: [2, 4, 8, 16, 32, 64, 128, 256]
   overviews_resampling: bilinear
 
   areas:
@@ -43,7 +42,6 @@ product_list:
 workers:
   - fun: !!python/name:trollflow2.plugins.create_scene
   - fun: !!python/name:trollflow2.plugins.load_composites
-  - fun: !!python/name:trollflow2.plugins.resample
   - fun: !!python/name:trollflow2.plugins.save_datasets
   - fun: !!python/name:trollflow2.plugins.add_overviews
   - fun: !!python/object:trollflow2.plugins.FilePublisher {}
