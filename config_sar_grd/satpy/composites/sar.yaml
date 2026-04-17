@@ -4,35 +4,36 @@ composites:
   vv-fmi-db:
     compositor: !!python/name:satpy.composites.SingleBandCompositor
     prerequisites:
-    - name: measurement
-      polarization: vv
-      calibration: sigma_nought
-      quantity: dB
+      - name: measurement
+        polarization: vv
+        calibration: sigma_nought
+        quantity: dB
     standard_name: iw-co-polarized
 
   hh-fmi-db:
     compositor: !!python/name:satpy.composites.SingleBandCompositor
     prerequisites:
-    - name: measurement
-      polarization: hh
-      calibration: sigma_nought
-      quantity: dB
-    standard_name: ew-co-polarized
+      - name: measurement
+        polarization: hh
+        calibration: sigma_nought
+        quantity: dB
+    standard_name: iw-co-polarized
 
   vh-fmi-db:
     compositor: !!python/name:satpy.composites.SingleBandCompositor
     prerequisites:
-    - name: measurement
-      polarization: vh
-      calibration: sigma_nought
-      quantity: dB
+      - name: measurement
+        polarization: vh
+        calibration: sigma_nought
+        quantity: dB
     standard_name: iw-cross-polarized
 
   hv-fmi-db:
     compositor: !!python/name:satpy.composites.SingleBandCompositor
     prerequisites:
-    - name: measurement
-      polarization: hv
-      calibration: sigma_nought
-      quantity: dB
-    standard_name: ew-cross-polarized
+      - name: measurement
+        polarization: hv
+        calibration: sigma_nought
+        quantity: dB
+    standard_name: iw-cross-polarized
+
