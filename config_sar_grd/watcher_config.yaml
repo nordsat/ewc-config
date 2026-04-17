@@ -17,6 +17,7 @@ publisher_config:
 message_config:
   subject: /segment/SAFE/GRD/IW/
   atype: file
+  scan_mode: iw
   aliases:
     sensor:
       SAR: SAR-C
@@ -24,4 +25,3 @@ data_config:
   unpack:
     format: directory
     include_dir_in_uid: true
-

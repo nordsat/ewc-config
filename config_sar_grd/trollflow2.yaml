@@ -17,7 +17,7 @@ product_list:
       areaname: satproj
       products:
         sar-ice-log-iw:
-          productname: sar-ice-log-iw
+          productname: sar-ice-log-v
           resolution: 80
           formats:
             - format: tif
@@ -28,8 +28,34 @@ product_list:
               compress: JPEG
               photometric: YCBCR
               fill_value: 0
+
+        sar-ice-log:
+          productname: sar-ice-log-h
+          resolution: 80
+          formats:
+            - format: tif
+              writer: geotiff
+              blockxsize: 512
+              blockysize: 512
+              tiled: true
+              compress: JPEG
+              photometric: YCBCR
+              fill_value: 0
+
         vv-fmi-db:
           productname: VV
+          resolution: 80
+          formats:
+            - format: tif
+              writer: geotiff
+              blockxsize: 512
+              blockysize: 512
+              tiled: true
+              compress: JPEG
+              fill_value: 0
+
+        hh-fmi-db:
+          productname: HH
           resolution: 80
           formats:
             - format: tif
@@ -47,4 +73,3 @@ workers:
   - fun: !!python/name:trollflow2.plugins.save_datasets
   - fun: !!python/name:trollflow2.plugins.add_overviews
   - fun: !!python/object:trollflow2.plugins.FilePublisher {}
-
