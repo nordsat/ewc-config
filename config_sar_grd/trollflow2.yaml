@@ -9,7 +9,7 @@ product_list:
   use_tmp_file: true
   delay_composites: false
   resampler: gradient_search
-  overviews: [2, 4, 8 16, 32, 64, 128, 256]
+  overviews: [2, 4, 8, 16, 32, 64, 128, 256]
   overviews_resampling: bilinear
 
   areas:
@@ -27,7 +27,7 @@ product_list:
               tiled: true
               compress: JPEG
               photometric: YCBCR
-              fill_value: 0
+              driver: COG
 
         sar-ice-log:
           productname: sar-ice-log-h
@@ -40,7 +40,7 @@ product_list:
               tiled: true
               compress: JPEG
               photometric: YCBCR
-              fill_value: 0
+              driver: COG
 
         vv-fmi-db:
           productname: VV
