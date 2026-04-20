@@ -3,7 +3,7 @@ product_list:
   subscribe_topics:
     - /segment/SAFE/GRD/IW/
   use_extern_calib: false
-  fname_pattern: "{start_time:%Y%m%d_%H%M%S}-{platform_name:3s}-{scan_mode:2s}-{productname}_40m.tiff"
+  fname_pattern: "{start_time:%Y%m%d_%H%M%S}_{platform_name}_{scan_mode:2s}_{productname}_40m.tiff"
   publish_topic: /raster/2A/sar-c
   reader: sar-c_safe
   use_tmp_file: true
