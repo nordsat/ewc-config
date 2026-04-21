@@ -9,7 +9,6 @@ product_list:
   use_tmp_file: true
   delay_composites: false
   resampler: gradient_search
-  overviews: [2, 4, 8, 16, 32, 64, 128, 256]
   overviews_resampling: bilinear
 
   areas:
@@ -25,8 +24,9 @@ product_list:
               blockxsize: 512
               blockysize: 512
               tiled: true
-              compress: JPEG
               photometric: YCBCR
+              compress: JPEG
+              overviews: [2, 4, 8, 16, 32, 64, 128, 256]
               driver: COG
 
         sar-ice-log:
@@ -38,8 +38,9 @@ product_list:
               blockxsize: 512
               blockysize: 512
               tiled: true
-              compress: JPEG
               photometric: YCBCR
+              compress: JPEG
+              overviews: [2, 4, 8, 16, 32, 64, 128, 256]
               driver: COG
 
         vv-fmi-db:
@@ -52,6 +53,8 @@ product_list:
               blockysize: 512
               tiled: true
               compress: JPEG
+              overviews: [2, 4, 8, 16, 32, 64, 128, 256]
+              driver: COG
               fill_value: 0
 
         hh-fmi-db:
@@ -64,6 +67,8 @@ product_list:
               blockysize: 512
               tiled: true
               compress: JPEG
+              overviews: [2, 4, 8, 16, 32, 64, 128, 256]
+              driver: COG
               fill_value: 0
 
 workers:
