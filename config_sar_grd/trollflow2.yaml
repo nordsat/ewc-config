@@ -15,7 +15,7 @@ product_list:
       areaname: satproj
       products:
         sar-ice-log-iw:
-          productname: sar-ice-log-v
+          productname: sar-ice
           resolution: 80
           formats:
             - format: tif
@@ -30,7 +30,7 @@ product_list:
               driver: COG
 
         sar-ice-log:
-          productname: sar-ice-log-h
+          productname: sar-ice
           resolution: 80
           formats:
             - format: tif
