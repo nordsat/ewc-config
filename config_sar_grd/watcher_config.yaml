@@ -1,6 +1,6 @@
 backend: dataspace
 fs_config:
-  filter_string: "contains(Name,'IW_GRDH') and contains(Name, 'COG') and Collection/Name eq 'SENTINEL-1' and OData.CSC.Intersects(area=geography'SRID=4326;POLYGON((-80.00 89.9,0.00 90.0,30.60 89.5,30.60 53.5,-80.00 53.5,-80.00 89.9))')"
+  filter_string: "contains(Name,'W_GRD') and contains(Name, 'COG') and Collection/Name eq 'SENTINEL-1' and OData.CSC.Intersects(area=geography'SRID=4326;POLYGON((-80.00 89.9,0.00 90.0,30.60 89.5,30.60 53.5,-80.00 53.5,-80.00 89.9))')"
   dataspace_auth:
     netrc_host: catalogue.dataspace.copernicus.eu
     netrc_file: /config/.netrc
@@ -17,8 +17,6 @@ publisher_config:
 message_config:
   subject: /segment/SAFE/GRD/IW/
   atype: file
-  data:
-    scan_mode: iw
   aliases:
     sensor:
       SAR: SAR-C
