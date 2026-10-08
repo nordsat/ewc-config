@@ -1,7 +1,6 @@
 backend: local
 fs_config:
-  # TODO: the directory where EUMETCast delivers the compact VIIRS files
-  directory: /eumetcast/TODO/
+  directory: /eumetcast/ter-1/default/
   file_pattern: "SV{segment}C_{platform_name}_d{start_time:%Y%m%d_t%H%M%S}{start_decimal:1d}_e{end_time:%H%M%S}{end_decimal:1d}_b{orbit:05d}_c{creation_time:%Y%m%d%H%M%S%f}_eum_ops.h5"
   protocol: ssh
   storage_options:
