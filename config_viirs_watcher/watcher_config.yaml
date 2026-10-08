@@ -1,0 +1,23 @@
+backend: local
+fs_config:
+  # TODO: the directory where EUMETCast delivers the compact VIIRS files
+  directory: /eumetcast/TODO/
+  file_pattern: "SV{segment}C_{platform_name}_d{start_time:%Y%m%d_t%H%M%S}{start_decimal:1d}_e{end_time:%H%M%S}{end_decimal:1d}_b{orbit:05d}_c{creation_time:%Y%m%d%H%M%S%f}_eum_ops.h5"
+  protocol: ssh
+  storage_options:
+    host: 10.0.0.125
+    username: ubuntu
+publisher_config:
+  nameservers: false
+  name: viirs_watcher
+  port: 9296
+message_config:
+  subject: /segment/viirs_h5
+  atype: file
+  aliases:
+    platform_name:
+      npp: Suomi-NPP
+      j01: NOAA-20
+      j02: NOAA-21
+  data:
+    sensor: viirs

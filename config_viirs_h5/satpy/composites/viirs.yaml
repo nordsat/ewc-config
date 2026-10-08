@@ -2,15 +2,15 @@ composites:
   true_color:
     compositor: !!python/name:satpy.composites.RatioSharpenedRGB
     prerequisites:
-    - name: M05
-      modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
-    - name: M04
-      modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
-    - name: M03
-      modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+      - name: M05
+        modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+      - name: M04
+        modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
+      - name: M03
+        modifiers: [effective_solar_pathlength_corrected, rayleigh_corrected]
     optional_prerequisites:
-    - name: I01
-      modifiers: [sunz_corrected_iband, rayleigh_corrected_iband]
+      - name: I01
+        modifiers: [sunz_corrected_iband, rayleigh_corrected_iband]
     standard_name: true_color
     high_resolution_band: red
 
@@ -20,7 +20,6 @@ composites:
   #   lim_low: 88.0
   #   prerequisites:
   #     - name: true_color
-
 
   true_color_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
@@ -42,12 +41,18 @@ composites:
     prerequisites:
       - name: night_fog
 
+  colorized_ir_clouds:
+    compositor: !!python/name:satpy.composites.core.SingleBandCompositor
+    prerequisites:
+      - name: "M15"
+    standard_name: colorized_ir_clouds
+
   cloud_phase:
     description: >
       EUMETSAT Cloud Phase RGB product
     references:
       EUMETRAIN Quick Guide: https://resources.eumetrain.org/rgb_quick_guides/quick_guides/CloudPhaseRGB.pdf
-      Recipe : https://resources.eumetrain.org/RGBguide/recipes/RGB_recipes.pdf
+      Recipe: https://resources.eumetrain.org/RGBguide/recipes/RGB_recipes.pdf
     compositor: !!python/name:satpy.composites.GenericCompositor
     prerequisites:
       - name: M10
@@ -68,6 +73,22 @@ composites:
     prerequisites:
       - name: cloud_phase
 
+  cimss_cloud_type_low_res:
+    description: >
+      Cloud Type RGB
+    references:
+      EUMETRAIN Quick Guide: https://resources.eumetrain.org/rgb_quick_guides/quick_guides/CloudTypeRGB.pdf
+      Recipe: https://resources.eumetrain.org/RGBguide/recipes/RGB_recipes.pdf
+    compositor: !!python/name:satpy.composites.core.GenericCompositor
+    prerequisites:
+      - name: M09
+        modifiers: [sunz_corrected]
+      - name: M05
+        modifiers: [sunz_corrected_iband]
+      - name: M10
+        modifiers: [sunz_corrected_iband]
+    standard_name: cimss_cloud_type
+
   cimss_cloud_type_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
     standard_name: image_ready
@@ -76,7 +97,7 @@ composites:
     lim_low: 87.0
     lim_high: 93.0
     prerequisites:
-      - name: cimss_cloud_type
+      - name: cimss_cloud_type_low_res
 
   natural_color_day:
     compositor: !!python/name:satpy.composites.DayNightCompositor
@@ -91,13 +112,13 @@ composites:
   24h_microphysics:
     compositor: !!python/name:satpy.composites.GenericCompositor
     prerequisites:
-    - compositor: !!python/name:satpy.composites.DifferenceCompositor
-      prerequisites:
-      - M16
+      - compositor: !!python/name:satpy.composites.DifferenceCompositor
+        prerequisites:
+          - M16
+          - M15
+      - compositor: !!python/name:satpy.composites.DifferenceCompositor
+        prerequisites:
+          - M15
+          - M14
       - M15
-    - compositor: !!python/name:satpy.composites.DifferenceCompositor
-      prerequisites:
-      - M15
-      - M14
-    - M15
     standard_name: 24h_microphysics
