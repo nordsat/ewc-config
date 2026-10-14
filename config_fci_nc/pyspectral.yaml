@@ -1,2 +1,3 @@
 rsr_dir: /.local/share/pyspectral/
 rayleigh_dir: /.local/share/pyspectral/
+download_from_internet: true
